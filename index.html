@@ -31,19 +31,20 @@ body, html {
     width: 80%; max-width: 1000px; height: auto;
     transition: transform 1s ease, opacity 1s ease;
 }
-/* 모바일일 때 살짝 위로 */
-@media (max-width: 768px) {
+/* 세로형 화면(아이폰 포함)일 때 살짝 위로 */
+@media (orientation: portrait) {
     #splash img {
-        transform: translateY(-5vh);
+        transform: translateY(-7vh); /* 7% 위로 올림 */
     }
 }
 
-/* iPhone 안전영역 고려 */
+/* iPhone 안전영역 감안 */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
     #splash {
-        padding-bottom: calc(env(safe-area-inset-bottom) / 2);
+        padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
     }
 }
+
 #intro-items {
     display: flex; flex-direction: column; align-items: center; gap: -200px; margin-top: 200px;
     opacity: 0; transition: opacity 1s ease; width: 80%; max-width: 500px;
