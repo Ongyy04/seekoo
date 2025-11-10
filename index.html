@@ -31,6 +31,19 @@ body, html {
     width: 80%; max-width: 1000px; height: auto;
     transition: transform 1s ease, opacity 1s ease;
 }
+/* 모바일일 때 살짝 위로 */
+@media (max-width: 768px) {
+    #splash img {
+        transform: translateY(-5vh);
+    }
+}
+
+/* iPhone 안전영역 고려 */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    #splash {
+        padding-bottom: calc(env(safe-area-inset-bottom) / 2);
+    }
+}
 #intro-items {
     display: flex; flex-direction: column; align-items: center; gap: -200px; margin-top: 200px;
     opacity: 0; transition: opacity 1s ease; width: 80%; max-width: 500px;
