@@ -46,8 +46,28 @@ body, html {
 }
 
 #intro-items {
-    display: flex; flex-direction: column; align-items: center; gap: -200px; margin-top: 200px;
-    opacity: 0; transition: opacity 1s ease; width: 80%; max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: -15vh;              /* 기존 -200px 대신 비율 단위 사용 */
+    margin-top: 15vh;        /* 위쪽 여백도 비율 단위 */
+    opacity: 0;
+    transition: opacity 1s ease;
+    width: 80%;
+    max-width: 500px;
+}
+
+/* 모바일 전용 (세로 비율이 긴 화면에서 조정) */
+@media (max-width: 768px) {
+    #intro-items {
+        gap: -10vh;          /* 간격을 조금 더 좁게 */
+        margin-top: 10vh;    /* 시작 위치를 더 위로 */
+    }
+
+    #intro-items img {
+        height: 40vh;        /* 화면에 비해 너무 크면 줄이기 */
+        margin-top: -10vh;   /* 겹침 정도도 비율 단위로 */
+    }
 }
 #intro-items img {
     width: auto; height: 50vh; max-width: 80vw; opacity: 0;    margin-top: -200px; /* 겹치는 정도 조절 */
