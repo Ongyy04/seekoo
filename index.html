@@ -55,7 +55,7 @@ body, html {
     }
     #intro-items {
         gap: -50vh;          /* 간격을 조금 더 좁게 */
-        margin-top: 20vh;    /* 시작 위치를 더 위로 */
+        margin-top: 19vh;    /* 시작 위치를 더 위로 */
     }
 
     #intro-items img {
@@ -79,6 +79,12 @@ body, html {
 @keyframes slideOutLeft {
     0% { transform: translateX(0); opacity: 1; }
     100% { transform: translateX(-100%); opacity: 0; }
+}
+@media (orientation: portrait) {
+    @keyframes slideOutLeft {
+        0% { transform: translate(-0%, -7vh); opacity: 1; }
+        100% { transform: translate(-100%, -7vh); opacity: 0; }
+    }
 }
 .slideOutLeft { animation: slideOutLeft 1s ease forwards; }
 
