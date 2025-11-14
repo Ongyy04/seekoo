@@ -401,7 +401,7 @@ font-family: "Almarai";
 /* 📱 모바일(세로 화면)일 때만 section3 이미지·label 보정 */
 @media (max-width: 768px) and (orientation: portrait) {
   .s3 .label {
-    transform: translateY(-1.5vh);
+    transform: translateY(-0.5vh);
   }
   .s3 .desc {
     margin: 16px 5vh 0;
@@ -476,28 +476,38 @@ font-family: "Almarai";
   max-width: 1000px;
 }
 @media (max-width: 768px) {
-  .branding-text {
-    position: absolute;
-    bottom: 2rem; /* 항상 화면 하단 근처에 위치 */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    text-align: center;
-    color: #fff;
-    line-height: 1.4;
+  .branding-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* 📌 화면 전체 높이에 맞춤 */
+    overflow: hidden;
   }
 
-  .branding-text p {
-    font-size: 0.9rem;
+  .branding-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 📌 꽉 채우기 */
+  }
+
+  .branding-text {
+    position: absolute;
+    bottom: 10%; /* 📌 하단에서 살짝 위 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    text-align: center;
+    color: white;
     line-height: 1.5;
   }
 
-  .branding-container {
-    position: relative;
-    min-height: 100vh; /* 배경이 꽉 차도록 */
+  .branding-text p {
+    font-size: 0.95rem;
+    margin: 0;
   }
 }
-
 
 /*section5*/
 /* 1) 좌/중앙/우 비율: 로고 영역을 더 넓게 */
