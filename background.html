@@ -175,39 +175,37 @@ body.to-light{
     .s1 .bubble{ transform: translateY(40px); }
     .s1 .bubble.show{ transform: translateY(0); }
     .s1 .bubble--top.show{ transform: translate(-50%, 0); }
-    
-/* ✅ 모바일(세로 화면)일 때도 PC와 비슷한 비율 유지 */
+
+/* 📱 모바일 화면에서 말풍선들이 살짝 겹치도록 */
 @media (max-width: 768px) and (orientation: portrait) {
+  .s1 {
+    position: relative;
+  }
+
   .s1 .bubble {
-    width: 100%; /* 전체 크기 기준 비율 */
+    position: absolute;
     max-width: none;
-    filter: drop-shadow(0 6px 18px rgba(0,0,0,.4));
-  }
-
-  /* 각 말풍선 위치 및 크기 조정 */
-  .s1 .bubble--top {
-    top: 12%;
+    width: 90vw;
     left: 50%;
-    transform: translate(-50%, 0);
-    width: 95vw; /* 화면 폭 거의 꽉 채우기 */
+    transform: translateX(-50%);
   }
 
-  .s1 .bubble--small-left {
-    top: 30%;
-    left: 8%;
-    width: 60vw; /* 크기 조금 키움 */
+  /* 위쪽 말풍선 */
+  .s1 .bubble--top {
+    top: 10%;
+    z-index: 3;
   }
 
+  /* 중간 말풍선 (첫 번째 아래쪽과 살짝 겹치게) */
+  .s1 .bubble--middle {
+    top: 35%;
+    z-index: 2;
+  }
+
+  /* 아래쪽 말풍선 */
   .s1 .bubble--bottom {
-    top: 55%;
-    right: 5%;
-    width: 90vw; /* 큰 말풍선이 화면을 꽉 채움 */
-  }
-
-  .s1 .bubble--small-right {
-    top: 45%;
-    right: 5%;
-    width: 55vw;
+    top: 60%;
+    z-index: 1;
   }
 }
 
@@ -314,6 +312,13 @@ body.to-light{
   color:#ddd;
   transform: translateY(100px);
 }
+/* 📱 모바일(세로 화면)일 때 section2 숨기기 */
+@media (max-width: 768px) and (orientation: portrait) {
+  #sec2 {
+    display: none !important;
+  }
+}
+
 /* ===== Section 3: 3장 갤러리 + 그라데이션 배경 ===== */
 
 
