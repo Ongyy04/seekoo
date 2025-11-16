@@ -648,37 +648,7 @@
         },
         { passive: true }
       );
-
-      // 📱 모바일: 위로 스와이프 시 solar.html로 이동 (맨 위일 때만)
-      if (/Mobi|Android/i.test(navigator.userAgent)) {
-        let startY = 0,
-          endY = 0;
-
-        window.addEventListener(
-          "touchstart",
-          (e) => (startY = e.touches[0].clientY),
-          { passive: true }
-        );
-
-        window.addEventListener(
-          "touchend",
-          (e) => {
-            const drawerOpen = document.body.classList.contains("drawer-open");
-            if (drawerOpen) return; // 🚫 drawer 열렸을 때 차단
-
-            endY = e.changedTouches[0].clientY;
-            const deltaY = startY - endY; // 위로 스와이프 → 양수
-
-            if (deltaY > 100 && window.scrollY <= 0 && !isNavigating) {
-              isNavigating = true;
-              document.body.classList.add("fade-out-up");
-              setTimeout(() => (window.location.href = "solar.html"), 800);
-            }
-          },
-          { passive: true }
-        );
-      }
-
+      
       // 🔁 뒤로가기 시 애니메이션 복원
       window.addEventListener("pageshow", (event) => {
         if (event.persisted) {
