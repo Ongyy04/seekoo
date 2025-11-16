@@ -1903,7 +1903,7 @@ font-family: "Almarai";
   }
 document.addEventListener("DOMContentLoaded", function () {
   const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-  if (!isMobile) return; // 모바일이 아니면 실행 안 함
+  if (!isMobile) return; // 모바일이 아닐 때 실행 X
 
   const masks = Array.from(document.querySelectorAll(".s11-mask-grid .mask"));
   const container = document.querySelector(".s11-mask-grid");
@@ -1911,16 +1911,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!container || masks.length === 0) return;
 
+  // Fisher–Yates 셔플 (랜덤 순서)
+  function shuffle(array) {
+    const a = array.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // 터치 시 한 번만 랜덤 도미노 실행
   container.addEventListener("touchstart", function (e) {
     e.preventDefault();
+    if (flipped) return; // 이미 한 번 실행했으면 종료
+    flipped = true;
 
-    // 뒤집기 ↔ 복귀 토글
-    flipped = !flipped;
-
-    masks.forEach((mask, index) => {
+    const shuffled = shuffle(masks);
+    shuffled.forEach((mask, index) => {
       setTimeout(() => {
-        mask.style.opacity = flipped ? "0" : "0.92";
-      }, index * 100); // 0.1초 간격 도미노
+        mask.style.opacity = "0";
+      }, index * 80 + Math.random() * 120); // 랜덤 간격 도미노
     });
   });
 });
