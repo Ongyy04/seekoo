@@ -180,7 +180,7 @@ body.to-light{
 @media (max-width: 768px) and (orientation: portrait) {
   .s1 {
     overflow: visible !important;
-    padding-bottom: 12vh; /* label 짤림 방지 */
+    padding-bottom: 0;
   }
 
   .s1 .gallery {
@@ -400,6 +400,9 @@ font-family: "Almarai";
 
 /* 📱 모바일(세로 화면)일 때만 section3 이미지·label 보정 */
 @media (max-width: 768px) and (orientation: portrait) {
+  .s3{
+    padding-top: 0;
+  }
   .s3 .label {
     transform: translateY(-1vh);
   }
@@ -470,16 +473,20 @@ font-family: "Almarai";
 
 .branding-text p {
   font-size: 1rem;
-              line-height: 1.2;
+  line-height: 1.2;
   color: #ddd;
   max-width: 1000px;
 }
 @media (max-width: 768px) {
+  .s4{
+    padding: 0;
+    min-height: 60vh;
+  }
+
   .branding-container {
     position: relative;
     width: 100%;
-    height: 100vh;; /* 📌 화면 전체 높이에 맞춤 */
-    overflow: hidden;
+    height: 30vh;; /* 📌 화면 전체 높이에 맞춤 */
   }
 
   .branding-bg {
@@ -489,23 +496,22 @@ font-family: "Almarai";
     width: 100%;
     height: 100%;
     object-fit: cover; /* 화면 꽉 채우기 유지 */
-    transform: translate(-50%, -50%) scale(0.85); /* 📌 더 많은 영역을 보기 위해 살짝 축소 */
+    transform: translate(-50%, -50%) scale(1); /* 📌 더 많은 영역을 보기 위해 살짝 축소 */
     object-position: center center; /* 중앙 기준 */
   }
 
   .branding-text {
     position: absolute;
-    bottom: 10%; /* 📌 하단에서 살짝 위 */
+    bottom: -30%; /* 📌 하단에서 살짝 위 */
     left: 50%;
     transform: translateX(-50%);
-    width: 83%;
+    width: 85%;
     text-align: center;
     color: white;
     line-height: 1.5;
   }
-
-  .branding-text p {
-    font-size: 0.95rem;
+  .branding-text p{
+    font-size: 0.69rem;
     margin: 0;
   }
 }
@@ -526,7 +532,7 @@ font-family: "Almarai";
 .s5-grid {
   display: grid;
   grid-template-columns: 1.4fr 1.2fr; /* 비율 조정 */
-  gap: 3rem;
+  gap: 2.9rem;
   align-items: start;
 }
 
@@ -557,11 +563,11 @@ font-family: "Almarai";
   margin: 0 auto;
 }
 .s5-logo-guide {
-  position: absolute;
+  position: relative;
   inset: 0;
   z-index: 1;
-  opacity: 0.6;
-  transform: translateX(-16px) translateY(110px) scale(1.383);
+  opacity: 1;
+  transform: translateX(-16px) translateY(20px) scale(1.383);
 
 }
 .s5-logo-guide img {
@@ -572,7 +578,7 @@ font-family: "Almarai";
 
 /* focus 개별 조정 */
 .s5-focus {
-  transform: translateX(0px) translateY(0px) scale(1);
+  transform: translateX(0px) translateY(5px) scale(1);
   transform-origin: center center;
 }
 
@@ -582,7 +588,6 @@ font-family: "Almarai";
   transform-origin: center center;
 }
 
-
 /* focus & roll 수직 정렬 */
 .s5-center {
   display: flex;
@@ -590,7 +595,7 @@ font-family: "Almarai";
   align-items: center;
   gap: 1rem;
   width: 100%;
-  transform: translateX(265px) translateY(22px) scale(0.8);
+  transform: translateX(264px) translateY(20px) scale(0.8);
   
 }
 .s5-center img {
@@ -605,7 +610,7 @@ font-family: "Almarai";
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 140%;
+  width: 120%;
   max-width: 700px;
   height: 700px;
 }
@@ -632,16 +637,42 @@ font-family: "Almarai";
   }
 }
 
-
 /* 등장 애니메이션(자연스러움 유지, 과하지 않게) */
 .section5 .s5-grid > * {
-  opacity: 0; transform: translateY(18px);
+  opacity: 0; 
   transition: opacity .8s ease, transform .8s ease;
 }
-.section5.is-inview .s5-grid > * { opacity: 1; transform: none; }
+.section5.is-inview .s5-grid > * { opacity: 1;  }
 
-
-
+@media (max-width: 768px){
+  .section5{
+    padding: 6rem 4rem;
+    min-height: auto;
+  }
+  .s5-center{
+    transform: translateX(-23%) translateY(10%) scale(0.7);
+  }
+  .s5-logo{
+    max-width: 100%;
+    transform: none;
+  }
+  .s5-logo img {
+    width: 100%;
+    max-width: 100%;
+  }
+  .s5-logo-guide {
+    transform: none;
+    transform: scale(1.7)
+  }
+  .s5-roll{
+    transform: translateX(14%) translateY(-42%) scale(0.7);
+  }
+  .s5-palette{
+    position: absolute;
+    transform: translateX(1px) translateY(-15px) scale(0.7);
+    right: 1%;
+  }
+}
 
 /* 작은 화면 대응 */
 @media (max-width: 840px){
@@ -730,7 +761,11 @@ font-family: "Almarai";
 
 }
 
-
+@media (max-width: 768px){
+  .s6-footnote{
+    transform: none;
+  } 
+}
 
 /* 반응형(좁은 화면일수록 전체 스케일 살짝 줄임) */
 @media (max-width: 900px){
@@ -801,7 +836,7 @@ font-family: "Almarai";
 }
 @media (max-width: 640px){
   .s7-gallery{ grid-template-columns: 1fr; }
-  .s7 { padding: 5rem 1.2rem 3rem; }
+  .s7 { padding: 5rem 1.2rem 3rem; min-height: auto;}
 }
 
 .s8 {
@@ -822,7 +857,9 @@ font-family: "Almarai";
   /* 자연스러운 전환 효과 */
   transition: background 3s ease;
 }
+@media (max-width: 640px){
 
+}
 .s9 {
   position: relative;
   min-height: 100vh;
@@ -841,7 +878,11 @@ font-family: "Almarai";
   /* 자연스러운 전환 효과 */
   transition: background 3s ease;
 }
-
+@media (max-width: 640px){
+  .s9{
+    min-height: 70vh
+  }
+}
 .s10 {
   position: relative;
   min-height: 100vh;
@@ -859,6 +900,11 @@ font-family: "Almarai";
 
   /* 자연스러운 전환 효과 */
   transition: background 3s ease;
+}
+@media (max-width: 640px){
+  .s10{
+    min-height: 30vh
+  }
 }
 
 /* 섹션 래퍼 */
@@ -1062,9 +1108,15 @@ font-family: "Almarai";
   filter: invert(0);
 }
 
-
-
-
+@media (max-width: 640px){
+  .s12{
+    padding: 0;
+  }
+  .s12-photo{
+    transform: translateX(-20px);
+    width: 50vh;
+  }
+}
 
 /* 반응형 */
 @media (max-width: 960px){
@@ -1190,7 +1242,7 @@ font-family: "Almarai";
 
     <div class="branding-text">
 
-      <p>
+      <p id="branding-pc">
         에너지를 ‘직접 만들어보는’ 신체활동 놀이로 아이들을 자연 속 ‘탐험가’로 이끌어냅니다.<br>
         스스로 에너지를 발견하고 만들면서, 환경의 소중함을 체험하고 지속가능한 성장을 이루어갑니다.<br>
       </p>
@@ -1203,8 +1255,6 @@ font-family: "Almarai";
   <div class="s5-inner">
     <div class="s5-grid">
       <div class="s5-left">
-        <figure class="s5-logo">
-          <img src="images/main_logo.png" alt="Seekoo 로고">
         </figure>
         <figure class="s5-logo-guide">
           <img src="images/Background/logo_design.png" alt="로고 가이드">
@@ -1759,6 +1809,17 @@ font-family: "Almarai";
   const observer = new MutationObserver(updateIndicatorColor);
   observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 })();
+
+  // 화면이 768px 이하 (모바일)이면 문구 교체
+  if (window.innerWidth <= 768) {
+    const p = document.getElementById('branding-pc');
+    p.innerHTML = `
+      에너지를 직접 만들어보는 놀이로<br>
+      아이들이 자연 속 탐험가가 됩니다.<br>
+      스스로 에너지를 만들며 환경의 소중함을 배우고<br>
+      지속가능한 성장을 경험합니다.
+    `;
+  }
 </script>
 
 
