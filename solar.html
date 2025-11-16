@@ -341,28 +341,35 @@
     }
   }, { passive: true });
 
-// 🎯 모바일 전용 스와이프 (빠른 flick일 때만 페이지 이동)
+// 🎯 모바일 전용 스와이프 (터치 이동 중에는 navigate 비활성화)
 if (/Mobi|Android/i.test(navigator.userAgent)) {
   let touchStartY = 0;
-  let touchStartTime = 0;
+  let isTouching = false;
   let touchHandled = false;
 
-  window.addEventListener("touchstart", function (event) {
+  window.addEventListener("touchstart", function (e) {
     if (isNavigating) return;
-    touchStartY = event.touches[0].clientY;
-    touchStartTime = Date.now();
+    touchStartY = e.touches[0].clientY;
+    isTouching = true;
     touchHandled = false;
   }, { passive: true });
 
-  window.addEventListener("touchend", function (event) {
+  window.addEventListener("touchmove", function (e) {
+    // 터치로 스포트라이트 조작 중엔 페이지 이동 방지
+    if (isTouching) {
+      e.stopPropagation();
+    }
+  }, { passive: false });
+
+  window.addEventListener("touchend", function (e) {
     if (isNavigating || touchHandled) return;
 
-    const touchEndY = event.changedTouches[0].clientY;
+    isTouching = false;
+    const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
-    const timeDiff = Date.now() - touchStartTime;
 
-    // 👇 빠르고 위로 flick할 때만 이동
-    if (deltaY > 80 && timeDiff < 400) {
+    // 일정 거리 이상 위로 스와이프 시만 페이지 이동
+    if (deltaY > 100) { 
       touchHandled = true;
       navigate();
     }
