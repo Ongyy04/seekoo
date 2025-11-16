@@ -275,124 +275,108 @@
       </div>
     </div>
   </main>
-
 <script>
-  document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+/* =============================
+ 🎇 Spotlight + Ripple 효과
+============================= */
+const root = document.documentElement;
+const overlay = document.querySelector('.overlay');
 
-  // --- 스포트라이트 효과 + 클릭 애니메이션 스크립트 ---
-  // ▼▼▼ 기존 터치 로직(touchmove)으로 복구 ▼▼▼
-  const root = document.documentElement;
-  const overlay = document.querySelector('.overlay');
+// spotlight 위치 갱신
+function setPos(x, y) {
+  root.style.setProperty('--mx', x + 'px');
+  root.style.setProperty('--my', y + 'px');
+}
 
-  function setPos(x, y) {
-    root.style.setProperty('--mx', x + 'px');
-    root.style.setProperty('--my', y + 'px');
+// 초기 중앙 위치 설정
+setPos(window.innerWidth / 2, window.innerHeight / 2);
+
+// 데스크탑 마우스 이동
+window.addEventListener('mousemove', (e) => setPos(e.clientX, e.clientY), { passive: true });
+
+// 모바일 터치 이동
+window.addEventListener('touchmove', (e) => {
+  const t = e.touches[0];
+  if (t) setPos(t.clientX, t.clientY);
+}, { passive: true });
+
+// 클릭 시 ripple 효과
+document.addEventListener('click', (e) => {
+  overlay.classList.add('bounce');
+  setTimeout(() => overlay.classList.remove('bounce'), 700);
+
+  const count = 3;
+  const delay = 150;
+  for (let i = 0; i < count; i++) {
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    const size = 200 + i * 60;
+    ripple.style.width = `${size}px`;
+    ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - size / 2}px`;
+    ripple.style.top = `${e.clientY - size / 2}px`;
+    ripple.style.animationDelay = `${i * delay}ms`;
+    document.body.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove());
   }
-
-  // 페이지 로드 시 중앙에서 시작 (원래 로직)
-  setPos(window.innerWidth / 2, window.innerHeight / 2);
-
-  // 데스크탑 마우스 이동
-  window.addEventListener('mousemove', (e) => setPos(e.clientX, e.clientY), { passive: true });
-  
-  // 모바일 터치 '이동' (touchmove)
-  window.addEventListener('touchmove', (e) => {
-    const t = e.touches[0];
-    if (t) setPos(t.clientX, t.clientY);
-  }, { passive: true });
-  // ▲▲▲ 기존 터치 로직(touchmove)으로 복구 ▲▲▲
-
-  // --- Click animations ---
-  document.addEventListener('click', (e) => {
-    overlay.classList.add('bounce');
-    setTimeout(() => overlay.classList.remove('bounce'), 700);
-
-    const count = 3;
-    const delay = 150;
-
-    for (let i = 0; i < count; i++) {
-      const ripple = document.createElement('div');
-      ripple.className = 'ripple';
-      const size = 200 + i * 60;
-      ripple.style.width = `${size}px`;
-      ripple.style.height = `${size}px`;
-      ripple.style.left = `${e.clientX - size / 2}px`;
-      ripple.style.top = `${e.clientY - size / 2}px`;
-      ripple.style.animationDelay = `${i * delay}ms`;
-      document.body.appendChild(ripple);
-      ripple.addEventListener('animationend', () => ripple.remove());
-    }
-  });
-
+});
 </script>
 
 <script>
-  // --- 스크롤/스와이프 시 페이지 이동 스크립트 (통합본) ---
-  // (이 스크립트는 변경 사항 없음)
+/* =============================
+ 🚫 스크롤 완전 차단
+============================= */
+window.addEventListener('wheel', e => e.preventDefault(), { passive: false });
+window.addEventListener('scroll', () => window.scrollTo(0, 0));
+window.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+</script>
 
-  let isNavigating = false; 
+<script>
+/* =============================
+ 📱 스와이프 / 💻 스크롤로 페이지 전환
+============================= */
+let isNavigating = false;
+let touchStartY = 0;
+let touchEndY = 0;
 
-  function navigate() {
-    if (isNavigating) return; 
-    isNavigating = true; 
+// 페이지 이동 함수
+function navigate() {
+  if (isNavigating) return;
+  isNavigating = true;
+  document.body.classList.add('page-fading-out');
+  setTimeout(() => {
+    window.location.href = 'solar_2.html';
+  }, 800);
+}
 
-    document.body.classList.add('page-fading-out');
+// 💻 데스크탑: 마우스 휠 아래로
+window.addEventListener('wheel', e => {
+  if (e.deltaY > 0 && !isNavigating) navigate();
+}, { passive: false });
 
-    setTimeout(() => {
-      window.location.href = 'solar_2.html';
-    }, 800); 
-  }
-
-  // 1. 데스크탑 (마우스 휠)
-  window.addEventListener('wheel', function(event) {
-    if (event.deltaY > 0) {
-      navigate();
-    }
-  }, { passive: true });
-
-// 🎯 모바일 전용 스와이프 (터치 이동 중에는 navigate 비활성화)
+// 📱 모바일: 위로 스와이프
 if (/Mobi|Android/i.test(navigator.userAgent)) {
-  let touchStartY = 0;
-  let isTouching = false;
-  let touchHandled = false;
-
-  window.addEventListener("touchstart", function (e) {
-    if (isNavigating) return;
+  window.addEventListener('touchstart', e => {
     touchStartY = e.touches[0].clientY;
-    isTouching = true;
-    touchHandled = false;
   }, { passive: true });
 
-  window.addEventListener("touchmove", function (e) {
-    // 터치로 스포트라이트 조작 중엔 페이지 이동 방지
-    if (isTouching) {
-      e.stopPropagation();
-    }
-  }, { passive: false });
-
-  window.addEventListener("touchend", function (e) {
-    if (isNavigating || touchHandled) return;
-
-    isTouching = false;
-    const touchEndY = e.changedTouches[0].clientY;
+  window.addEventListener('touchend', e => {
+    touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
-
-    // 일정 거리 이상 위로 스와이프 시만 페이지 이동
-    if (deltaY > 100) { 
-      touchHandled = true;
+    if (deltaY > 100 && !isNavigating) { // 위로 100px 이상 스와이프 시
       navigate();
     }
   }, { passive: true });
 }
 
-
-  // '뒤로가기' 버튼으로 돌아왔을 때 화면 복구
-  window.addEventListener('pageshow', function(event) {
-    if (event.persisted) {
-      isNavigating = false;
-      document.body.classList.remove('page-fading-out');
-    }
-  });
+// 🔁 뒤로가기 시 페이드 효과 복원
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    isNavigating = false;
+    document.body.classList.remove('page-fading-out');
+  }
+});
 </script>
+
 </body>
 </html>
