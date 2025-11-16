@@ -32,7 +32,7 @@
         overflow-y: auto;
         overscroll-behavior: contain;
         -webkit-overflow-scrolling: touch;
-        }
+      }
 
       /* ... (중략) ... */
 
@@ -627,119 +627,87 @@
         alt="Scroll down indicator"
       />
     </div>
-
     <script>
-      const scrollIndicator = document.querySelector(".scroll-indicator");
-      let scrollTimeout;
-      let lastScrollY = window.scrollY;
+      /* ===========================
+ 🎯 페이지 전환: solar2 → solar
+=========================== */
+      let isNavigating = false;
 
-      scrollIndicator.addEventListener("click", () => {
-        document.documentElement.style.scrollSnapType = "none";
-        document.body.classList.add("fade-out-down");
-        setTimeout(() => {
-          window.location.href = "index.html#main";
-        }, 800);
-      });
-    </script>
-    <script>
-      let isNavigatingUp = false;
-
+      // 🖱 데스크탑 휠: 위로 스크롤 시 이전 페이지 (맨 위일 때만)
       window.addEventListener(
         "wheel",
-        function (event) {
-          if (!isNavigatingUp && event.deltaY < 0 && window.scrollY === 0) {
-            isNavigatingUp = true;
-            document.documentElement.style.scrollSnapType = "none";
+        (event) => {
+          const drawerOpen = document.body.classList.contains("drawer-open");
+          if (isNavigating || drawerOpen) return; // 🚫 drawer 열렸을 때 차단
+
+          if (event.deltaY < 0 && window.scrollY <= 0) {
+            isNavigating = true;
             document.body.classList.add("fade-out-up");
-            setTimeout(() => {
-              window.location.href = "solar.html";
-            }, 800);
+            setTimeout(() => (window.location.href = "solar.html"), 800);
           }
         },
         { passive: true }
       );
 
-      // 🎯 모바일 전용: 위로 스와이프 시 solar.html로 이동
+      // 📱 모바일: 위로 스와이프 시 solar.html로 이동 (맨 위일 때만)
       if (/Mobi|Android/i.test(navigator.userAgent)) {
-        let startY = 0;
-        let endY = 0;
-        let isSwiping = false;
+        let startY = 0,
+          endY = 0;
 
         window.addEventListener(
           "touchstart",
-          function (e) {
-            startY = e.touches[0].clientY;
-            isSwiping = true;
-          },
-          { passive: true }
-        );
-
-        window.addEventListener(
-          "touchmove",
-          function (e) {
-            // 손가락이 움직이는 동안에도 위치 추적
-            if (isSwiping) {
-              endY = e.touches[0].clientY;
-            }
-          },
+          (e) => (startY = e.touches[0].clientY),
           { passive: true }
         );
 
         window.addEventListener(
           "touchend",
-          function (e) {
-            if (!isSwiping) return;
-            isSwiping = false;
+          (e) => {
+            const drawerOpen = document.body.classList.contains("drawer-open");
+            if (drawerOpen) return; // 🚫 drawer 열렸을 때 차단
 
-            const deltaY = startY - endY;
+            endY = e.changedTouches[0].clientY;
+            const deltaY = startY - endY; // 위로 스와이프 → 양수
 
-            // 위로 100px 이상 스와이프 시 solar.html로 이동
-            if (deltaY > 100 && window.scrollY === 0) {
-              document.documentElement.style.scrollSnapType = "none";
+            if (deltaY > 100 && window.scrollY <= 0 && !isNavigating) {
+              isNavigating = true;
               document.body.classList.add("fade-out-up");
-
-              setTimeout(() => {
-                window.location.href = "solar.html";
-              }, 800);
+              setTimeout(() => (window.location.href = "solar.html"), 800);
             }
           },
           { passive: true }
         );
       }
 
-      window.addEventListener("pageshow", function (event) {
+      // 🔁 뒤로가기 시 애니메이션 복원
+      window.addEventListener("pageshow", (event) => {
         if (event.persisted) {
-          isNavigatingUp = false;
+          isNavigating = false;
           document.body.classList.remove("fade-out-up");
         }
       });
     </script>
-    <script>
-      const quickBar = document.getElementById("quickBar");
-      const showEdge = () => {
-        const threshold = innerWidth * 0.7;
-        quickBar.classList.toggle(
-          "visible",
-          lastX >= threshold || "ontouchstart" in window
-        );
-      };
-      let lastX = 0;
-      addEventListener(
-        "mousemove",
-        (e) => {
-          lastX = e.clientX;
-          showEdge();
-        },
-        { passive: true }
-      );
-      addEventListener(
-        "touchstart",
-        () => {
-          quickBar.classList.add("visible");
-        },
-        { passive: true }
-      );
 
+    <script>
+      /* ===========================
+ 🧭 Scroll indicator
+=========================== */
+      const scrollIndicator = document.querySelector(".scroll-indicator");
+      if (scrollIndicator) {
+        scrollIndicator.addEventListener("click", () => {
+          document.body.classList.add("fade-out-down");
+          setTimeout(() => {
+            window.location.href = "index.html#main";
+          }, 800);
+        });
+      }
+    </script>
+
+    <script>
+      /* ===========================
+ 📑 Drawer (SCENARIO)
+=========================== */
+      const quickBar = document.getElementById("quickBar");
       const drawer = document.getElementById("sideDrawer");
       const scrim = document.getElementById("drawerScrim");
       const drawerClose = document.getElementById("drawerClose");
@@ -747,27 +715,44 @@
       function openDrawer() {
         drawer.classList.add("open");
         scrim.classList.add("show");
-        quickBar.setAttribute("aria-expanded", "true");
-        drawer.setAttribute("aria-hidden", "false");
-
         document.body.classList.add("drawer-open");
       }
       function closeDrawer() {
         drawer.classList.remove("open");
         scrim.classList.remove("show");
-        quickBar.setAttribute("aria-expanded", "false");
-        drawer.setAttribute("aria-hidden", "true");
-        
         document.body.classList.remove("drawer-open");
       }
+
       quickBar.addEventListener("click", openDrawer);
       drawerClose.addEventListener("click", closeDrawer);
       scrim.addEventListener("click", closeDrawer);
       addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeDrawer();
       });
+
+      // 마우스 오른쪽 진입 시 QuickBar 표시
+      let lastX = 0;
+      addEventListener(
+        "mousemove",
+        (e) => {
+          lastX = e.clientX;
+          const threshold = innerWidth * 0.7;
+          quickBar.classList.toggle(
+            "visible",
+            lastX >= threshold || "ontouchstart" in window
+          );
+        },
+        { passive: true }
+      );
+      addEventListener("touchstart", () => quickBar.classList.add("visible"), {
+        passive: true,
+      });
     </script>
+
     <script>
+      /* ===========================
+ 💥 Ripple 효과
+=========================== */
       document.addEventListener("click", (e) => {
         const count = 3;
         const delay = 150;
@@ -782,7 +767,7 @@
           ripple.style.top = `${e.clientY - size / 2}px`;
           ripple.style.animationDelay = `${i * delay}ms`;
           document.body.appendChild(ripple);
-          ripple.addEventListeneFr("animationend", () => ripple.remove());
+          ripple.addEventListener("animationend", () => ripple.remove());
         }
       });
     </script>
