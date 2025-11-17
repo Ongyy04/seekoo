@@ -420,16 +420,17 @@
 
         .under-row {
           flex-direction: column; /* 세로 쌓기 */
-          gap: 4vh; 
+          gap: 4vh;
           align-items: flex-start;
         }
 
         .under-logo {
           transform: translateY(0); /* y축 이동 리셋 */
-          gap: 30px;
+          gap: 4vh;
         }
         .overlay-logo {
-          gap: 20px;
+          gap: 4vh;
+          transform: translateY(-14vh);
         }
 
         /* 로고 원 크기 줄이기 */
@@ -556,6 +557,15 @@
         },
         { passive: true }
       );
+      // 모바일 터치 이동
+      window.addEventListener(
+        "touchmove",
+        (e) => {
+          const t = e.touches[0];
+          if (t) setPos(t.clientX, t.clientY);
+        },
+        { passive: true }
+      );
 
       // [삭제] 이 블록에 있던 touchmove 리스너를 삭제했습니다. (마지막 스크립트와 통합)
     </script>
@@ -662,14 +672,9 @@
         passive: false,
       });
       window.addEventListener("scroll", () => window.scrollTo(0, 0));
-      addEventListener(
-        "touchmove",
-        (e) => {
-          const t = e.touches[0];
-          if (t) setPos(t.clientX, t.clientY);
-        },
-        { passive: true }
-      );
+      window.addEventListener("touchmove", (e) => e.preventDefault(), {
+        passive: false,
+      });
       /* =============================
  📱 스와이프 / 💻 스크롤로 페이지 전환
 ============================= */
