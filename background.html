@@ -925,7 +925,9 @@ font-family: "Almarai";
   transition: background 3s ease;
 }
 @media (max-width: 640px){
-
+  .s8{
+    min-height: 30vh
+  }
 }
 .s9 {
   position: relative;
@@ -947,7 +949,7 @@ font-family: "Almarai";
 }
 @media (max-width: 640px){
   .s9{
-    min-height: 70vh
+    min-height: 30vh
   }
 }
 .s10 {
@@ -1189,9 +1191,11 @@ font-family: "Almarai";
 @media (max-width: 640px){
   .s12{
     padding: 0;
+    position: relative;
+    min-height: auto; /* 고정 높이 제거 */
   }
   .s12-left{
-    transform: none;
+    transform: scale(0.7) translate(-21%, -21%);
   }
   .s12-photo{
     transform: none;
@@ -1202,13 +1206,19 @@ font-family: "Almarai";
 @media (max-width: 960px){
   .s12-inner{
     grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: auto;
   }
   .s12-logo-top img{ width: min(280px, 60%); }
   .s12-photo{ order: -1; } /* 모바일에서 사진을 위로 올리고 싶으면 주석 해제 */
   .s12{
     gap: 0;
     transform: none;
-    margin: 28px 0;
+    margin-top: 28px;
+    max-height: 950px;
   }
   .s12-logo-top img {
     transform: translateX(14%) translateY(-20px) scale(1.7);
@@ -1222,6 +1232,10 @@ font-family: "Almarai";
     opacity: 0;
     transform: translateY(6px);
     filter: blur(2px);
+  }
+  .scroll-indicator img {
+    width: 70%;
+    transform: translateX(5vh);
   }
 }
 
