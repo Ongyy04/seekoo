@@ -155,44 +155,56 @@ main{ position:relative; }
     transform: none;
   }
 }
+/* ===== SECTION 1: 16:9 Figma 배치 ===== */
 
-/* --- 💻 메인 화면 스타일 --- */
+/* 화면 중앙에 16:9 캔버스 */
+.s1 {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:0;
+}
+
+.s1-canvas {
+  position: relative;
+  width: min(100vw, 1800px);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+/* 공통 스타일 */
 .s1 .bubble {
-  position: absolute;
-  display: block;
-  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.45));
-  width: min(1200px, 92vw);
+  position:absolute;
+  transform:none !important;
+  filter:drop-shadow(0 8px 22px rgba(0,0,0,.45));
 }
+
+/* bg_1 */
 .s1 .bubble--top {
-  top: 13%;
-  left: 55%;
-  transform: translate(-50%, 0);
-  width: min(1200px, 92vw);
+  left: 16.13%;
+  top: 10.33%;
+  width: 80.73%;
 }
+
+/* bg_2 */
 .s1 .bubble--small-left {
-  top: 35%;
-  left: 7%;
-  width: min(400px, 38vw);
+  left: 2.50%;
+  top: 32.48%;
+  width: 27.27%;
 }
+
+/* bg_3 */
 .s1 .bubble--bottom {
-  top: 55%;
-  right: 50%;
-  width: min(1000px, 82vw);
+  left: 17.45%;
+  top: 55.77%;
+  width: 63.95%;
 }
+
+/* bg_4 */
 .s1 .bubble--small-right {
-  top: 45%;
-  right: 5%;
-  width: min(400px, 36vw);
-} /* s1만
-방향감 있게 미세 슬라이드 */
-.s1 .bubble--top {
-  transform: translateY(40px);
-}
-.s1 .bubble--top.show  {
-  transform: translate(-50%, 0);
-} 
-.s1 .bubble--bottom.show{
-  transform: translate(50%, 0);
+  left: 74.06%;
+  top: 47.31%;
+  width: 22.85%;
 }
 /* 📱 모바일(세로 화면)에서도 .s1 카드 겹치게 */
 @media (max-width: 768px) and (orientation: portrait) {
@@ -235,108 +247,62 @@ main{ position:relative; }
     transform: translateY(-3vh) scale(1);
   }
 }
-/* ===== Section 2: Research 스타일 한 장 + 텍스트 ===== */
-.s2 .board{
-  position:absolute; left:50%; top:50%;
-  transform:translate(-50%, -50%);
-  width:min(1200px, 92vw);
+/* ===== SECTION 2 캔버스 ===== */
+
+.s2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
 }
-.s2 .label{
-  position:absolute; font-weight:700;
-  letter-spacing:.3px;
-  filter: drop-shadow(0 6px 16px rgba(0,0,0,.35));
-  mix-blend-mode:normal; /* 텍스트는 일반 색상으로 */
+
+.s2-canvas {
+  position: relative;
+  width: min(100vw, 1800px);
+  aspect-ratio: 16 / 9;
+  overflow: visible;
 }
-.s2 .label--change{
-  top:24%; left:48%;
-  transform:rotate(-10deg);
-  font-size:clamp(14px,1.2vw,22px);
-  background:#fff; color:#111;
-  padding:.35rem .7rem; border-radius:.35rem;
-}
-.s2 .label--outdoor{
-  bottom:8%; left:30%;
-  font-size:clamp(18px,1.6vw,28px);
-  color:#ff684f;
-}
-.s2 .label--minutes{
-  bottom:6.5%; left:52%;
-  font-size:clamp(18px,1.6vw,28px);
-  background:#ff684f; color:#111;
-  padding:.2rem .5rem; border-radius:.35rem;
-  font-weight:800;
-}
-.s2 .para{
-  position:absolute; left:6%; bottom:12%;
-  width:40ch; line-height:1.4; color:#cfcfcf;
-  font-size:clamp(12px,1vw,16px);
-  opacity:.9;
-}
-/* Section2 전용 말풍선 이미지 배치 */
-.s2 .bubble{
-  position:absolute;
+
+/* 공통 이미지 스타일 */
+.s2 .bubble {
+  position: absolute;
+  transform: none !important;
   filter: drop-shadow(0 8px 22px rgba(0,0,0,.45));
-  opacity:0;
-  transform: translateY(40px);
-  transition:
-    opacity .9s ease-out var(--delay,0ms),
-    transform .9s cubic-bezier(.22,1,.36,1) var(--delay,0ms);
-  will-change: transform, opacity;
+  height: auto;
 }
 
-/* 각 이미지 위치 */
-.s2 .bubble--top-left{
-  top:15%;
-  left:7%;
-  width:700px;
-  
-}
-.s2 .bubble--top-right{
-  top:25%;
-  right:34%;
-  width:550px;
-
-
-}
-.s2 .bubble--bottom-left{
-  bottom:10%;
-  left:40%;
-  width:900px;
-}
-.s2 .bubble--bottom-right{
-  bottom:43%;
-  right:47%;
-  width:50px;
+/* 이미지21 (bg_21) */
+.s2 .bubble--21 {
+  left: 4.89%;
+  top: 8.96%;
+  width: 40.94%; /* ← 기존 43.09%에서 5% 추가 축소 */
+  z-index: 1;
 }
 
-/* 등장 시 애니메이션 */
-.s2 .bubble.show{
-  opacity:1;
-  transform: translateY(0);
+/* 이미지22 (bg_22 — 가장 위) */
+.s2 .bubble--22 {
+  left: 33.49%;
+  top: 16.11%;
+  width: 36.79%; /* ← 기존 35.57%에서 5% 추가 축소 */
+  z-index: 5;
 }
 
-/* Research 텍스트 */
-.s2 .research-text{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-750px,300px);
-  text-align:left;
-  color:#f2f2f2;
-  max-width:800px;
+/* 이미지23 (bg_23) */
+.s2 .bubble--23 {
+  left: 44.00%;
+  top: 3.29%;
+  width: 50.78%; /* ← 기존 58.72%에서 5% 추가 축소 */
+  z-index: 3;
 }
-.s2 .research-text h2{
-  font-size:clamp(20px,2vw,36px);
-  margin-bottom:.5rem;
-  font-weight:600;
-}
-.s2 .research-text p{
 
-  font-size:15px;
-               line-height: 1.2;
 
-  color:#ddd;
-  transform: translateY(100px);
+.s2 .bubble--text {
+  position: absolute;
+  left: 4.21%;
+  top: 80.37%;
+  width: 67.29%;
+  height: auto;
+  z-index: 12; /* 가장 위에 올라오도록 */
 }
 
 @media (max-width: 768px) and (orientation: portrait) {
@@ -1263,43 +1229,30 @@ font-family: "Almarai";
            src="images/Background/bg_4.png" alt="작은 우측 말풍선" style="--delay:200ms;">
     </section>
 
-    <section class="section s2">
-  <img
-    class="bubble bubble--top-left reveal js-reveal"
-    src="images/Background/bg_21.png"
-    alt="_21"
-    style="--delay:0ms;"
-  />
+<section class="section s2">
 
-    <img
-    class="bubble bubble--bottom-left reveal js-reveal"
-    src="images/Background/bg_23.png"
-    alt="_23"
-    style="--delay:300ms;"
-  />
+  <div class="s2-canvas">
 
-  <img
-    class="bubble bubble--top-right reveal js-reveal"
-    src="images/Background/bg_22.png"
-    alt="_22"
-    style="--delay:200ms;"
-  />
+    <!-- 이미지 21 -->
+    <img class="bubble bubble--21 reveal js-reveal"
+         src="images/Background/bg_21.png" style="--delay:0ms;">
 
-  <img
-    class="bubble bubble--bottom-right reveal js-reveal"
-    src="images/Background/bg_24.png"
-    alt="_24"
-    style="--delay:400ms;"
-  />
+    <!-- 이미지 22 (맨 위) -->
+    <img class="bubble bubble--22 reveal js-reveal"
+         src="images/Background/bg_22.png" style="--delay:150ms;">
 
-  <div class="research-text reveal js-reveal" style="--delay:500ms;">
-    <p>
-      아이들이 환경 문제의 심각성(93%)은 인지하지만, 부족한 야외 활동과 체험 기회로 인해 인식과 실천 사이의 격차가 발생하고 있습니다.<br>
-      
-따라서 환경을 놀이처럼 체감하고  능동적인 실천 감각을 키울 수 있는 새로운 형태의 교육 변화가 필요하다는 것을 발견했습니다.
-    </p>
+    <!-- 이미지 23 -->
+    <img class="bubble bubble--23 reveal js-reveal"
+         src="images/Background/bg_23.png" style="--delay:250ms;">
+
+   <img class="bubble bubble--text reveal js-reveal"
+     src="images/Background/text.png" style="--delay:350ms;">
+
   </div>
+
 </section>
+
+
 
     <section class="section s3" data-title="Motive">
   <h2 class="s3-title reveal js-reveal" style="--delay:0ms;">Motive of SEEKOO</h2>
