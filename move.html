@@ -420,13 +420,13 @@
 
         .under-row {
           flex-direction: column; /* 세로 쌓기 */
-          gap: 30px;
+          gap: 4vh; 
           align-items: flex-start;
         }
 
         .under-logo {
           transform: translateY(0); /* y축 이동 리셋 */
-          gap: 20px;
+          gap: 30px;
         }
         .overlay-logo {
           gap: 20px;
@@ -465,25 +465,6 @@
           margin-top: 30px;
           font-size: 14px;
           max-width: 100%;
-        }
-
-        /* 퀵바/서랍 */
-        .quickbar {
-          width: 45px;
-          height: auto;
-          padding: 15px 0;
-          border-radius: 10px 0 0 10px;
-          transform: translateY(-50%) translateX(0);
-          top: 50%;
-          opacity: 1;
-          pointer-events: auto;
-        }
-        .qb-label {
-          font-size: 16px;
-        }
-        .drawer {
-          width: 90vw;
-          max-width: 90vw;
         }
 
         /* 아래쪽 컨텐츠 섹션 */
@@ -547,16 +528,6 @@
         </div>
       </div>
     </main>
-
-    <button
-      class="quickbar"
-      id="quickBar"
-      aria-controls="sideDrawer"
-      aria-expanded="false"
-    >
-      <span class="qb-label">Process Archive</span>
-    </button>
-
     <aside class="drawer" id="sideDrawer" aria-hidden="true">
       <button class="drawer-close" id="drawerClose" aria-label="Close">
         ×
@@ -691,9 +662,14 @@
         passive: false,
       });
       window.addEventListener("scroll", () => window.scrollTo(0, 0));
-      window.addEventListener("touchmove", (e) => e.preventDefault(), {
-        passive: false,
-      });
+      addEventListener(
+        "touchmove",
+        (e) => {
+          const t = e.touches[0];
+          if (t) setPos(t.clientX, t.clientY);
+        },
+        { passive: true }
+      );
       /* =============================
  📱 스와이프 / 💻 스크롤로 페이지 전환
 ============================= */
